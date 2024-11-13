@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Check</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Grammar Check</h1>
+        <form action="/grammar" method="POST">
+            <textarea name="text" rows="10" placeholder="Enter text for grammar check..."></textarea><br>
+            <button type="submit">Check Grammar</button>
+        </form>
+        
+        {% if corrected_text %}
+            <h2>Corrected Text:</h2>
+            <div class="result-box">
+                <p>{{ corrected_text }}</p>
+            </div>
+        {% endif %}
+        <a href="/" class="button">Back to Home</a>
+    </div>
+</body>
+</html>

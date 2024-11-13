@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarization</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function showSummary(size) {
+            // Hide all summary boxes first
+            document.getElementById('small-summary').style.display = 'none';
+            document.getElementById('medium-summary').style.display = 'none';
+            document.getElementById('large-summary').style.display = 'none';
+
+            // Show the selected summary box
+            if (size === 'small') {
+                document.getElementById('small-summary').style.display = 'block';
+            } else if (size === 'medium') {
+                document.getElementById('medium-summary').style.display = 'block';
+            } else if (size === 'large') {
+                document.getElementById('large-summary').style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Summarization</h1>
+        <form action="/summarize" method="POST">
+            <textarea name="text" rows="10" placeholder="Enter text for summarization..."></textarea><br>
+            <button type="submit">Summarize</button>
+        </form>
+
+        {% if small_summary or medium_summary or large_summary %}
+            <h2>Choose Summary Size</h2>
+            <div class="summary-buttons">
+                <button type="button" onclick="showSummary('small')">Small</button>
+                <button type="button" onclick="showSummary('medium')">Medium</button>
+                <button type="button" onclick="showSummary('large')">Large</button>
+            </div>
+
+            <div id="small-summary" style="display: none;">
+                <h3>Small Summary:</h3>
+                <p>{{ small_summary }}</p>
+            </div>
+
+            <div id="medium-summary" style="display: none;">
+                <h3>Medium Summary:</h3>
+                <p>{{ medium_summary }}</p>
+            </div>
+
+            <div id="large-summary" style="display: none;">
+                <h3>Large Summary:</h3>
+                <p>{{ large_summary }}</p>
+            </div>
+        {% endif %}
+
+        <a href="/" class="button">Back to Home</a>
+    </div>
+</body>
+</html>

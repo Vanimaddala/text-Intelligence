@@ -1,11 +1,10 @@
+
 import requests
-import json
 from dotenv import load_dotenv
-import os
 
 # Load API key from environment variables
 load_dotenv()
-GROQ_API_KEY = "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"
+GROQ_API_KEY = "APIKEY"
 GROQ_API_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 
 def detect_language(text):
@@ -93,3 +92,65 @@ def analyze_sentiment(text):
         return "Unable to analyze sentiment."
     except requests.exceptions.RequestException:
         return "Unable to analyze sentiment."
+
+def summarize_text(text, summary_length="medium"):
+    """Summarize the text in small, medium, or large length using the GROQ API."""
+    summary_prompt = ""
+    
+    if summary_length == "small":
+        summary_prompt = f"Summarize this text in a few sentences:\n\n{text}"
+    elif summary_length == "medium":
+        summary_prompt = f"Summarize this text in a concise paragraph:\n\n{text}"
+    elif summary_length == "large":
+        summary_prompt = f"Summarize this text in a detailed but brief paragraph:\n\n{text}"
+
+    payload = {
+        "model": "llama3-8b-8192",
+        "messages": [
+            {
+                "role": "user",
+                "content": summary_prompt
+            }
+        ]
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {GROQ_API_KEY}"
+    }
+
+    try:
+        response = requests.post(GROQ_API_ENDPOINT, json=payload, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        if "choices" in data and len(data["choices"]) > 0:
+            summary = data["choices"][0]["message"]["content"].strip()
+            return summary
+        return "Unable to summarize text."
+    except requests.exceptions.RequestException:
+        return "Unable to summarize text."
+def paraphrase_text(text):
+    """Paraphrase the text while keeping the meaning intact."""
+    paraphrase_payload = {
+        "model": "llama3-8b-8192",  # Or any other paraphrasing model you use
+        "messages": [
+            {
+                "role": "user",
+                "content": f"Paraphrase the following text without changing its meaning:\n\n{text}"
+            }
+        ]
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {GROQ_API_KEY}"
+    }
+
+    try:
+        response = requests.post(GROQ_API_ENDPOINT, json=paraphrase_payload, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        if "choices" in data and len(data["choices"]) > 0:
+            return data["choices"][0]["message"]["content"].strip()
+        return "Unable to paraphrase the text."
+    except requests.exceptions.RequestException:
+        return "Error paraphrasing the text."
+
