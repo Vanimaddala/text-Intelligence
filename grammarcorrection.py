@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 # Load API key from environment variables
 load_dotenv()
-GROQ_API_KEY = "APIKEY"
+GROQ_API_KEY = "API KEY"
 GROQ_API_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 
 def detect_language(text):
