@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Correction & Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 50%;
+            height: 150px;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .result-box {
+            width: 45%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .result-box h2 {
+            margin-top: 0;
+        }
+
+        .sentiment-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Grammar Correction and Analysis</h1>
+    <div class="form-container">
+        <form action="/" method="post">
+            <label for="text">Enter text:</label>
+            <textarea id="text" name="text" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    {% if language %}
+        <h2>Detected Language:</h2>
+        <p>{{ language }}</p>
+    {% endif %}
+
+    {% if corrected_text %}
+        <div class="results-container">
+            <div class="result-box">
+                <h2>Original Text:</h2>
+                <p>{{ request.form['text'] }}</p>
+            </div>
+
+            <div class="result-box">
+                <h2>Corrected Text:</h2>
+                <p>{{ corrected_text }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if english_translation %}
+        <div class="results-container">
+            <div class="result-box">
+                <h2>English Translation:</h2>
+                <p>{{ english_translation }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if sentiment %}
+        <div class="sentiment-box">
+            <h2>Sentiment Analysis Result:</h2>
+            <p>{{ sentiment }}</p>
+        </div>
+    {% endif %}
+</body>
+</html>
